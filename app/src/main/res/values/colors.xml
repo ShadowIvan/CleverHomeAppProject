@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="checkedColor">#FFA726</color> <!-- Цвет для включенного состояния -->
+    <color name="uncheckedColor">#BDBDBD</color> <!-- Цвет для выключенного состояния -->
+    <color name="background_dark">#121212</color>
+    <color name="primary_text_dark">#FFFFFF</color>
+    <color name="secondary_text_dark">#B3B3B3</color>
+
 </resources>
