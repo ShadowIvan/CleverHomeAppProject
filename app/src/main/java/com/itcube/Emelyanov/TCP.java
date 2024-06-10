@@ -37,7 +37,7 @@ public class TCP extends AppCompatActivity {
     private static final int PORT = 52000;
     private DatagramSocket udpSocket;
     private InetAddress serverAddress;
-    private String _ipAddress = "192.168.1.216";
+    private String _ipAddress = "192.168.1.65";
     private int roomId = 2;
     private LinearLayout toggleButtonContainer;
     private LinearLayout buttonContainer;
