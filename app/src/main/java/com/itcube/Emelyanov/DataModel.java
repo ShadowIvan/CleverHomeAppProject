@@ -33,5 +33,15 @@ public class DataModel {
         return info;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setRoom(int Roomid) {
+        this.room = Roomid;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 }

@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background_widget"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#8000FF00">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/text_roomid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:text="Room: 2"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/Light1w"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_light_off"
-            android:contentDescription="Light 1"/>
+            android:contentDescription="Light 1"
+            android:src="@drawable/ic_light_off" />
 
         <ImageView
             android:id="@+id/Light2w"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_light_off"
-            android:contentDescription="Light 2"/>
+            android:contentDescription="Light 2"
+            android:src="@drawable/ic_light_off" />
 
         <ImageView
             android:id="@+id/Light3w"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_light_off"
-            android:contentDescription="Light 3"/>
+            android:contentDescription="Light 3"
+            android:src="@drawable/ic_light_off" />
 
     </LinearLayout>
+
 </LinearLayout>
