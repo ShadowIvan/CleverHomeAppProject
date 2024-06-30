@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,42 +10,62 @@
     android:foregroundTint="#FF5D5D"
     android:foregroundTintMode="screen"
     android:textAlignment="center"
-    tools:context=".MainActivity">
+    tools:context=".TCP">
+
+    <EditText
+        android:id="@+id/ip_address"
+        android:layout_width="240dp"
+        android:layout_height="48dp"
+        android:digits="0123456789."
+        android:hint="Введите IP адрес"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/port"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/port"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="5dp"
+        android:digits="0123456789"
+        android:hint="Введите порт"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/AddSetup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:backgroundTint="#0A67A3"
         android:text="Add"
-        app:layout_constraintBottom_toTopOf="@+id/textView_ip"
+        app:layout_constraintBottom_toTopOf="@+id/logout_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/NameNewSetup"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/NameNewSetup"
         android:layout_width="270dp"
         android:layout_height="66dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:textColorHint="#C1FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/textView_ip"
-        app:layout_constraintEnd_toStartOf="@+id/AddSetup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#D5218555"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_dialog"
             android:gravity="center"
-            android:hint="NameSetup"
+            android:hint="Введите название сценария"
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
@@ -60,11 +79,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="15dp"
         android:layout_weight="1"
         android:backgroundTint="#0A67A3"
         android:text="NextRoom"
         android:textColorLink="#0A67A3"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Light3"
         tools:ignore="NotSibling" />
@@ -73,13 +93,13 @@
         android:id="@+id/text_roomid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:contextClickable="false"
-        android:text="Room:"
+        android:text="Комната №2"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toStartOf="@+id/next_button"
         app:layout_constraintStart_toEndOf="@+id/back_button"
         app:layout_constraintTop_toBottomOf="@+id/Light2"
@@ -101,7 +121,7 @@
         android:id="@+id/Light2"
         android:layout_width="120dp"
         android:layout_height="48dp"
-        android:layout_marginTop="216dp"
+        android:layout_marginTop="100dp"
         android:text="Свет 2"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
@@ -123,21 +143,12 @@
         app:layout_constraintTop_toTopOf="@+id/Light2" />
 
     <TextView
-        android:id="@+id/textView_ip"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp" />
-
-    <TextView
         android:id="@+id/textView"
         android:layout_width="369dp"
         android:layout_height="84dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Удачного дня!"
+        android:text="Хорошего дня!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
@@ -147,44 +158,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Сценарии"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/next_button"
+        app:layout_constraintStart_toEndOf="@+id/back_button"
+        app:layout_constraintTop_toBottomOf="@+id/Light2" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@id/textView_ip"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:background="#C8218555"
-        android:contentDescription="scroll_view_description"
-        app:layout_constraintBottom_toTopOf="@+id/NameNewSetup"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_button"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:id="@+id/buttonContainer"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!-- Здесь будут динамически добавлены кнопки -->
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@drawable/background_dialog" />
 
-    </ScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:contentDescription="recycler_view_description" />
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#0A67A3"
         android:text="BackRoom"
         android:textColorLink="#0A67A3"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Light1"
         tools:ignore="NotSibling" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="#9F0505"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/NameNewSetup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
