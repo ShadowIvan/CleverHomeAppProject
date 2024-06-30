@@ -28,11 +28,12 @@ public class LightSwitchWidget extends AppWidgetProvider {
     private static final String ACTION_LIGHT_CLICK = "com.itcube.Emelyanov.LIGHT_CLICK";
     private static final String ACTION_UPDATE_WIDGET = "com.itcube.Emelyanov.UPDATE_WIDGET";
     private static final String ACTION_OPEN_ACTIVITY = "com.itcube.Emelyanov.OPEN_ACTIVITY";
-    private static final String ACTION_APPWIDGET_ENABLED = "android.appwidget.action.APPWIDGET_ENABLED";
 
     private static InetAddress serverAddress;
     private final Handler handler = new Handler();
-
+    /**
+     * создание переодичной получении данных
+     */
     private Runnable createPeriodicTask(Context context) {
         return new Runnable() {
             @Override
@@ -42,10 +43,11 @@ public class LightSwitchWidget extends AppWidgetProvider {
                 int backgroundResId = "on".equals(prefs.getString("ConnectingArduino", "off")) ?
                         R.drawable.background_widget : R.drawable.background_widget_off;
                 updateWidgetBackground(context, backgroundResId);
-               // handler.postDelayed(this, 8000); // 8 секунд интервал
+                //handler.postDelayed(this, 8000); // 8 секунд интервал
             }
         };
     }
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -143,7 +145,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
         updateAllWidgets(context);
         sendCommandToArduino(context);
     }
-
+    /**
+     * Обновить объекты
+     */
     private void updateAllWidgets(Context context) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName thisWidget = new ComponentName(context, LightSwitchWidget.class);
@@ -154,7 +158,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
-
+    /**
+     * Отправка команды для ардуино
+     */
     private void sendCommandToArduino(Context context) {
         new Thread(() -> {
             DatagramSocket socket = null;
@@ -199,7 +205,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
             }
         }).start();
     }
-
+    /**
+     * Запрос на ардуино
+     */
     public static void sendCommandToArduinoQ(Context context, LightSwitchWidget widget) {
         new Thread(() -> {
             DatagramSocket socket = null;
@@ -229,7 +237,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
             }
         }).start();
     }
-
+    /**
+     * Выставление переодичности
+     */
     private void setupPeriodicUpdate(Context context) {
         Intent intent = new Intent(context, LightSwitchWidget.class);
         intent.setAction(ACTION_UPDATE_WIDGET);
@@ -239,7 +249,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
             alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 8000, pendingIntent);
         }
     }
-
+    /**
+     * Прослушка информации с ардуино
+     */
     private static void ListeningForResponses(Context context, DatagramSocket receiveSocket) {
         new Thread(() -> {
             SharedPreferences prefs = context.getSharedPreferences("LightSwitchWidgetPrefs", Context.MODE_PRIVATE);
@@ -283,7 +295,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
             }
         }).start();
     }
-
+    /**
+     * Обработка информации от ардуино
+     */
     private static void processReceivedData(Context context, String data) {
         // Пример строки: ">L:2;5;0;0;0;0;0;0;"
         SharedPreferences prefs = context.getSharedPreferences("LightSwitchWidgetPrefs", Context.MODE_PRIVATE);
@@ -321,7 +335,9 @@ public class LightSwitchWidget extends AppWidgetProvider {
     }
 
 
-
+    /**
+     * Обновление виджета света
+     */
     private static void updateWidgetWithLightStatus(Context context, String lightStatusBinary) {
         // Преобразуем бинарную строку в статус для каждого светильника
         boolean[] lightStates = new boolean[8];
@@ -346,12 +362,17 @@ public class LightSwitchWidget extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
-
+    /**
+     * Показать toast
+     */
     private static void showToastOnMainThread(Context context, String message) {
         Handler mainHandler = new Handler(Looper.getMainLooper());
         mainHandler.post(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
     }
 
+    /**
+     * Обновление фона по статусу подключения к ардуино
+     */
     private void updateWidgetBackground(Context context, int backgroundResId) {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName thisWidget = new ComponentName(context, LightSwitchWidget.class);

@@ -19,7 +19,9 @@ public class ChangeRoomIdActivity extends AppCompatActivity {
     private Button saveButton, BbuttonRoom, NbuttonRoom;;
 
     private int roomId = 2;
-
+    /**
+     * инциализация
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +57,15 @@ public class ChangeRoomIdActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * выставление текста
+     */
     void SetTExtRoomId() {
         TextRoomId.setText("Room: " + roomId);
     }
+    /**
+     * сохранение id комнаты для виджета
+     */
     private void saveRoomId(String roomId) {
         SharedPreferences prefs = getSharedPreferences("LightSwitchWidgetPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

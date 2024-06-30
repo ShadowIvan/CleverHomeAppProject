@@ -59,7 +59,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
              SetRoomSetup(dataModel);
         });
     }
-
+    /**
+     * Выставление значений о светильниках
+     */
     void SetRoomSetup(DataModel dataModel){
         String info = dataModel.getInfo();
 
@@ -77,67 +79,61 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         tcpInstance.roomIdTextView.setText("Комната №" + dataModel.getRoom());
         tcpInstance.sendCommandToArduino();
     }
-
+    /**
+     * Обновление recycle
+     */
     public void UpdateRecycle() {
         dataModelList.clear();
-        notifyDataSetChanged(); // добавьте это, чтобы обновить RecyclerView
-        tcpInstance.fetchDataFromServer(tcpInstance.user_data.getUserId());  // вызов метода fetchDataFromServer
+        notifyDataSetChanged();
+        tcpInstance.fetchDataFromServer(tcpInstance.user_data.getUserId());
     }
-
+    /**
+     * Удаление сценария
+     */
     public void DeleteData(int poz){
         Call<Void> call = retrofitInterface.deleteData(dataModelList.get(poz).getID());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Успешное удаление данных
                     Toast.makeText(tcpInstance, "Data successfully deleted", Toast.LENGTH_SHORT).show();
                     Log.d("DeleteData", "Data successfully deleted");
                     UpdateRecycle();
-                    // Дополнительная логика для успешного удаления, например, обновление UI
                 } else {
-                    // Неуспешный запрос
                     Toast.makeText(tcpInstance, "Failed to delete data", Toast.LENGTH_SHORT).show();
                     Log.e("DeleteData", "Failed to delete data: " + response.message());
-                    // Дополнительная логика для обработки ошибки, например, отображение сообщения пользователю
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Ошибка в процессе выполнения запроса
                 Toast.makeText(tcpInstance, "Failed to delete data", Toast.LENGTH_SHORT).show();
                 Log.e("DeleteData", "Error: " + t.getMessage());
-                // Дополнительная логика для обработки ошибки, например, отображение сообщения пользователю
             }
         });
     }
-
+    /**
+     * Изменить данные о сценариях
+     */
     public void EditData(DataModel dataModel){
         Call<Void> call = retrofitInterface.editData(dataModel);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Успешное удаление данных
                     Toast.makeText(tcpInstance, "Data successfully edited", Toast.LENGTH_SHORT).show();
                     Log.d("EditData", "Data successfully edited " + response.message());
                     UpdateRecycle();
-                    // Дополнительная логика для успешного удаления, например, обновление UI
                 } else {
-                    // Неуспешный запрос
                     Toast.makeText(tcpInstance, "Failed to edit data", Toast.LENGTH_SHORT).show();
                     Log.e("EditData", "Failed to edit data: " + response.message());
-                    // Дополнительная логика для обработки ошибки, например, отображение сообщения пользователю
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Ошибка в процессе выполнения запроса
                 Toast.makeText(tcpInstance, "Failed to edit data", Toast.LENGTH_SHORT).show();
                 Log.e("EditData", "Error: " + t.getMessage());
-                // Дополнительная логика для обработки ошибки, например, отображение сообщения пользователю
             }
         });
     }
@@ -161,7 +157,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             textConteiner = itemView.findViewById(R.id.textContainer);
         }
     }
-
+    /**
+     * Показать диалог для редактирования сценария
+     */
     private void showEditDialog(DataModel dataModel, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.CustomAlertDialog);
 
@@ -180,7 +178,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         inputName.setText(dataModel.getName());
         inputRoom.setText(String.valueOf(dataModel.getRoom()));
 
-        // Установка состояния светильников
         String lightInfo = dataModel.getInfo();
         if (lightInfo.length() >= 3) {
             updateLightState(light1, lightInfo.charAt(0));
@@ -188,7 +185,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             updateLightState(light3, lightInfo.charAt(2));
         }
 
-        // Установка обработчиков кликов для переключения состояния светильников
         light1.setOnClickListener(v -> toggleLightState(light1));
         light2.setOnClickListener(v -> toggleLightState(light2));
         light3.setOnClickListener(v -> toggleLightState(light3));
@@ -236,7 +232,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                     dataModel.setName(newName);
                     dataModel.setRoom(newRoom);
                     dataModel.setInfo(newInfo);
-                    //notifyItemChanged(position);
                     EditData(dataModel);
                     dialog.dismiss();
                 });
@@ -246,6 +241,10 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         dialog.show();
     }
 
+    /**
+     * Обновление статуса светильника
+     */
+
     private void updateLightState(ImageView light, char state) {
         if (state == '1') {
             light.setImageResource(R.drawable.ic_light_on);
@@ -254,6 +253,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         }
     }
 
+    /**
+     * Обновление статуса светильника
+     */
     private void toggleLightState(ImageView light) {
         if (light.getDrawable().getConstantState() == activity.getDrawable(R.drawable.ic_light_off).getConstantState()) {
             light.setImageResource(R.drawable.ic_light_on);
@@ -261,7 +263,9 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
             light.setImageResource(R.drawable.ic_light_off);
         }
     }
-
+    /**
+     * Получение статуса светильника
+     */
     private String getLightState(ImageView light) {
         if (light.getDrawable().getConstantState() == activity.getDrawable(R.drawable.ic_light_off).getConstantState()) {
             return "0";

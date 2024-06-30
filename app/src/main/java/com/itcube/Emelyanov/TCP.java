@@ -423,7 +423,9 @@ public class TCP extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Открыть диалог с авторизацией.
+     */
     private void showLoginDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -454,7 +456,9 @@ public class TCP extends AppCompatActivity {
         });
         dialog.show();
     }
-
+    /**
+     * Проверка на пустоту в полях для авторизации
+     */
     private boolean validateLoginInput(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Username and Password cannot be empty", Toast.LENGTH_SHORT).show();
@@ -462,7 +466,9 @@ public class TCP extends AppCompatActivity {
         }
         return true;
     }
-
+    /**
+     * проверка полей для регистрации
+     */
     private boolean validateRegisterInput(String username, String password) {
         if (username.length() < 3 || password.length() < 6) {
             Toast.makeText(this, "Username must be at least 3 characters and Password at least 6 characters", Toast.LENGTH_SHORT).show();
@@ -473,7 +479,9 @@ public class TCP extends AppCompatActivity {
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private volatile boolean isRunning = false;
-
+    /**
+     * Прослушка сообщений от ардуино
+     */
     private void ListeningForResponses(Context context, DatagramSocket receiveSocket) {
         new Thread(() -> {
             SharedPreferences prefs = context.getSharedPreferences("LightSwitchWidgetPrefs", Context.MODE_PRIVATE);
@@ -533,15 +541,9 @@ public class TCP extends AppCompatActivity {
         }).start();
     }
 
-
-
-
-
-
-
-
-
-
+    /**
+     * Обработка полученных данных с ардуино.
+     */
     private void processReceivedData(Context context, String data) {
         // Example string: ">L:2;5;0;0;0;0;0;0;"
         SharedPreferences prefs = context.getSharedPreferences("LightSwitchWidgetPrefs", Context.MODE_PRIVATE);
@@ -584,6 +586,9 @@ public class TCP extends AppCompatActivity {
             Log.e("TCP", "Error processing received data", e);
         }
     }
+    /**
+     * Инциализация сервера
+     */
     private void initRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://gimnazevent.ru/Hakaton/Sumsung/") // Replace with your base URL
@@ -591,12 +596,19 @@ public class TCP extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
     }
+    /**
+     * загрузка сохранённых данных
+     */
     private void loadSavedData() {
         String savedIP = prefs.getString("IP_ADDRESS", "192.168.1.216");
         int savedPort = prefs.getInt("PORT", 52000);
         ipAddressEditText.setText(savedIP);
         portEditText.setText(String.valueOf(savedPort));
     }
+
+    /**
+     * Перекраска текста при разной активности ардуино
+     */
     public void SetIpStatus(boolean status){
         if(status){
             ipAddressEditText.setTextColor(Color.WHITE);
@@ -606,6 +618,10 @@ public class TCP extends AppCompatActivity {
             portEditText.setTextColor(Color.RED);
         }
     }
+
+    /**
+     * Вход пользователя
+     */
     private void authenticateUser(String username, String password, AlertDialog dialog) {
         // Создание объекта запроса для аутентификации
         UserRequest request = new UserRequest(username, password, null);
@@ -646,6 +662,10 @@ public class TCP extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Регистрация пользователя
+     */
     private void registerUser(String username, String password, AlertDialog dialog) {
         // Создание объекта запроса для регистрации
         UserRequest userRequest = new UserRequest(username, password, null);
