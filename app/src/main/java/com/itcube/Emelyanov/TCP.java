@@ -64,7 +64,9 @@ public class TCP extends AppCompatActivity {
     public UserRequest user_data;
 
     private static final String ACTION_LIGHT_CLICK = "com.itcube.Emelyanov.LIGHT_CLICK";
-
+    /**
+     * Инциализация.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +81,18 @@ public class TCP extends AppCompatActivity {
         initializeConnection();  // Ensure connection is initialized after loading saved data
         sendCommandToArduinoQ(this);
     }
-
+    /**
+     * Проверить работу и получить данные при открытии
+     */
     @Override
     protected void onResume() {
         super.onResume();
         sendCommandToArduinoQ(this);
     }
 
-
+    /**
+     * UI инциализация
+     */
     private void findViews() {
         L1 = findViewById(R.id.Light1);
         L2 = findViewById(R.id.Light2);
@@ -101,7 +107,9 @@ public class TCP extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         logoutButton = findViewById(R.id.logout_button);
     }
-
+    /**
+     * UI инциализация
+     */
     private void setupUI(Context context) {
         roomIdTextView.setText("Комната №" + roomId);
 
@@ -214,7 +222,9 @@ public class TCP extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Автоматическая аунтифекация
+     */
     private void attemptAutoLogin() {
         String username = prefs.getString("username", null);
         String password = prefs.getString("password", null);
@@ -225,12 +235,18 @@ public class TCP extends AppCompatActivity {
             showLoginDialog();
         }
     }
-
+    /**
+     * Обновление цвета переключателя в зависимости от его состояния.
+     * @param _switch переключатель
+     * @param isChecked состояние переключателя
+     */
     public void updateThumbTint(Switch _switch, boolean isChecked) {
         int thumbColor = isChecked ? Color.parseColor("#FF8E00") : Color.parseColor("#FFFFFF");
         _switch.setThumbTintList(ColorStateList.valueOf(thumbColor));
     }
-
+    /**
+     * Отправка команды на Arduino через UDP.
+     */
     public void sendCommandToArduino() {
         new Thread(() -> {
             try {
@@ -253,7 +269,9 @@ public class TCP extends AppCompatActivity {
             }
         }).start();
     }
-
+    /**
+     * Сохранение Ip
+     */
     private void saveIPAddress() {
         String ip = ipAddressEditText.getText().toString();
         if (ip.matches("^\\d{1,3}(\\.\\d{1,3}){3}$")) {
@@ -266,7 +284,9 @@ public class TCP extends AppCompatActivity {
             ipAddressEditText.setError("Invalid IP address");
         }
     }
-
+    /**
+     * Сохранение порта
+     */
     private void savePort() {
         String portStr = portEditText.getText().toString();
         try {
@@ -284,7 +304,9 @@ public class TCP extends AppCompatActivity {
             portEditText.setError("Invalid port number");
         }
     }
-
+    /**
+     * Инциализация udp
+     */
     private void initializeConnection() {
         try {
             synchronized (this) {
@@ -305,7 +327,9 @@ public class TCP extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Поиск сценариев в БД.
+     */
     public void fetchDataFromServer(String id_user) {
         Call<List<DataModel>> call = retrofitInterface.fetchData(Integer.parseInt(id_user));
         call.enqueue(new Callback<List<DataModel>>() {
@@ -338,7 +362,9 @@ public class TCP extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Добавление сценария в БД.
+     */
     private void addItemToServer(String name, int roomId, String setup) {
         DataModel newItem = new DataModel(-1, name, roomId, setup);
         Call<Void> call = retrofitInterface.createData(newItem, Integer.parseInt(user_data.getUserId()));
@@ -359,7 +385,11 @@ public class TCP extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Отправка запроса на Arduino через UDP.
+     * 1. Работает?
+     * 2. Получения статуса светильников в квартире.
+     */
     public void sendCommandToArduinoQ(Context context) {
         if (isRunning) {
             Log.w("TCP", "Существует активный поток обработки данных.");
